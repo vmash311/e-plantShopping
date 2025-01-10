@@ -5,40 +5,42 @@ import './CartItem.css';
 
 const CartItem = ({ onContinueShopping }) => {
   const cart = useSelector(state => state.cart.items);
+  
   const dispatch = useDispatch();
 
   // Calculate total amount for all products in the cart
   const calculateTotalAmount = () => {
     return cart.reduce((total, item) => {
       return total + item.quantity * item.cost;
-    }, 0);
+    }, 0) 
   };
 
-  const handleContinueShopping = (e) => {
-    const handleContinueShopping = () => {
-        if (onContinueShopping) onContinueShopping();
-      };
-   
+  const handleContinueShopping = () => {
+    if (onContinueShopping) onContinueShopping();
   };
+
 
 
 
   const handleIncrement = (item) => {
-    dispatch(updateQuantity({ id: item.id, quantity: item.quantity + 1 }));
+    dispatch(updateQuantity({ name: item.name, quantity: item.quantity + 1 }));
   };
   const handleDecrement = (item) => {
     if (item.quantity > 1) {
-      dispatch(updateQuantity({ id: item.id, quantity: item.quantity - 1 }));
+      dispatch(updateQuantity({ name: item.name, quantity: item.quantity - 1 }));
+    } else {
+      // If the quantity is 1, remove the item from the cart
+      dispatch(removeItem({ name: item.name }));
     }
   };
-
   const handleRemove = (item) => {
     dispatch(removeItem(item.id));
   };
-  // Calculate total cost based on quantity for an item
   const calculateTotalCost = (item) => {
-    return item.quantity * item.cost;
+    return (item.quantity * item.cost).toFixed(2);  // Format total cost for each item to 2 decimal places
   };
+  // Calculate total cost based on quantity for an item
+  const totalQuantity = cart.reduce((total, item) => total + item.quantity, 0);
 
 
   return (

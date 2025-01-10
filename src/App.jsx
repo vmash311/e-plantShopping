@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 import ProductList from './ProductList';
 import './App.css';
 import AboutUs from './AboutUs';
+import { Provider } from 'react-redux';
+import { store } from './store';
 
 function App() {
   
